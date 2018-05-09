@@ -8,13 +8,19 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import mazerunner.model.*;
+
+import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
 
 
 public class Window extends Application {
-    ImageView[] imgArr = new ImageView[1800];
+    final int width = 60;
+    final int height = 30;
+    Cell[] cellsArr = new Cell[width*height];
+
     Image image;
     Image stoneWall;
     Image treeWall;
@@ -23,27 +29,33 @@ public class Window extends Application {
     Image gray;
     Image green;
     Image player;
+    Image gift;
+    Image bomb;
     int playerIndex=0;
     Stage s;
     Group root;
     Scene scene;
     int j=0;
+    Cell pl = new Player();
 
     public void makeArray() throws FileNotFoundException {
         stoneWall = new Image(new FileInputStream("images\\stone20x20.png"));
         treeWall = new Image(new FileInputStream("images\\tree.png"));
         brownWall = new Image(new FileInputStream("images\\brown.png"));
         gray = new Image(new FileInputStream("images\\grey.png"));
-        player = new Image(new FileInputStream("images\\player.png"));
-
+         player = new Image(new FileInputStream("D:\\git\\maze-runner\\images\\player.png"));
+         gift = new Image(new FileInputStream("D:\\git\\maze-runner\\images\\cyanpath.png"));
+         bomb = new Image(new FileInputStream("D:\\git\\maze-runner\\images\\purplepath.png"));
+         ImageView im = new ImageView(player);
+         pl.setImageView(im);
 
         Random random = new Random();
         boolean bo1 = random.nextBoolean();
         boolean bo2 = random.nextBoolean();
         boolean bo3 = random.nextBoolean();
-        boolean added=false;
-        for(int j=0;j<30;j++) {
-            for(int i=0;i<60;i++) {
+//        boolean added=false;
+        for(int j=0;j<height;j++) {
+            for(int i=0;i<width;i++) {
                 bo1 = random.nextBoolean();
                 bo2 = random.nextBoolean();
                 bo3 = random.nextBoolean();
@@ -51,43 +63,57 @@ public class Window extends Application {
                 int x = ijton(i, j);
 
                 if(bo1==true && bo2 == true && bo3 == true) {
-                    imgArr[x]=new ImageView(treeWall);
+                    cellsArr[x] = new TreeWall();
+                    cellsArr[x].setImageView(new ImageView(treeWall));
                 }else if (bo1==false&& bo2 == true ) {
-                    imgArr[x]=new ImageView(brownWall);
+                    cellsArr[x] = new StoneWall();
+                    cellsArr[x].setImageView(new ImageView(brownWall));
                 } else{
-                    imgArr[x]=new ImageView(gray);
-                    if(added==false) {
-                        if(true) {
-                            imgArr[x]=new ImageView(player);
-                            added=true;
-                            playerIndex=x;
-                        }
-                    }
+                    cellsArr[x] = new EmptyCell();
+                    cellsArr[x].setImageView(new ImageView(gray));
+//                    if(added==false) {
+//                        if(true) {
+//                            cellsArr[x] = new Player();
+//                            cellsArr[x].setImageView(new ImageView(player));
+//                            added=true;
+//                            playerIndex=x;
+//                        }
+//                    }
                 }
 
                 //Setting the position of the image
-                imgArr[x].setX(i*20);
-                imgArr[x].setY(j*20);
+                cellsArr[x].getImageView().setX(i*20);
+                cellsArr[x].getImageView().setY(j*20);
 
 
-                imgArr[x].setFitHeight(20);
-                imgArr[x].setFitWidth(20);
-                imgArr[x].setPreserveRatio(true);
+                cellsArr[x].getImageView().setFitHeight(20);
+                cellsArr[x].getImageView().setFitWidth(20);
+                cellsArr[x].getImageView().setPreserveRatio(true);
 
             }
         }
-
     }
     public void draw() {
-        root = new Group(imgArr);
+        root = new Group();
+        for(int i=0;i<width*height;i++) {
+            root.getChildren().add(cellsArr[i].getImageView());
+        }
+//        root.getChildren().add(cellsArr[playerIndex].getImageView());
+        root.getChildren().add(pl.getImageView());
         scene = new Scene(root, 1200, 600);
         s.setTitle("Multiple views of an image");
         s.setScene(scene);
-        // s.show();
+//        s.show();
+
     }
     public void initializeGame(){
-        root = new Group(imgArr);
-        scene = new Scene(root, 1200, 600);
+
+        root = new Group();
+        for(int i=0;i<width*height;i++) {
+            root.getChildren().add(cellsArr[i].getImageView());
+        }
+//        root.res
+        scene = new Scene(root);
         s.setTitle("Multiple views of an image");
         s.setScene(scene);
         s.show();
@@ -99,8 +125,10 @@ public class Window extends Application {
         stage.setTitle("Multiple views of an image");
         makeArray();
         initializeGame();
+        System.out.println("Drawing");
         draw();
         gdeedFa45();
+        gdeedFa45tanya();
     }
 
 
@@ -115,14 +143,14 @@ public class Window extends Application {
         i1+=1;
     }
     public void update(int i) {
-        swapCells(playerIndex, i);
+        swapCells(playerIndex,i);
         playerIndex=i;
         System.out.println("swapped");
     }
     public void swapCells(int n1,int n2) {
-        ImageView temp = new ImageView(imgArr[n1].getImage()) ;
-        imgArr[n1].setImage(imgArr[n2].getImage());
-        imgArr[n2].setImage(temp.getImage());
+        ImageView temp = new ImageView(cellsArr[n1].getImageView().getImage()) ;
+        cellsArr[n1].setImage(cellsArr[n2].getImageView().getImage());
+        cellsArr[n2].setImage(temp.getImage());
     }
 
 
@@ -139,18 +167,118 @@ public class Window extends Application {
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            update(++j);
+//                            update(++j);
                             draw();
                         }
                     });
                     i++;
-                    Thread.sleep(10);
+                    Thread.sleep(1000);
                 }
             }
         };
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
+    }
+    public void gdeedFa45tanya(){
+        Task task = new Task<Void>() {
+            @Override
+            public Void call() throws Exception {
+                int i = 0;
+                while (true) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            scene.setOnKeyPressed(KeyEvent->{
+                                switch(KeyEvent.getCode()){
+                                    case UP:
+                                        System.out.println("UP");
+                                        moveUP();
+                                        break;
+                                    case DOWN:
+                                        System.out.println("DOWN");
+                                        moveDown();
+                                        break;
+                                    case LEFT:
+                                        System.out.println("LEFT");
+                                        moveLeft();
+                                        break;
+                                    case RIGHT:
+                                        System.out.println("RIGHT");
+                                        moveRight();
+                                        break;
+                                }
+                            });
+                        }
+                    });
+                    i++;
+                    Thread.sleep(1000);
+                }
+            }
+        };
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    void moveRight(){
+        if(collisionDetection("Right")) {
+            ImageView im = pl.getImageView();
+//            for(int i=1;i<20;i+=3) {
+                im.setX(im.getX() + 20);
+                pl.setImageView(im);
+//            }
+            playerIndex++;
+        }
+    }
+    void moveLeft(){
+
+        if(collisionDetection("Left")) {
+            ImageView im = pl.getImageView();
+//            for ( int i = 0; i < 1000 ; i++) {
+//            }
+            im.setX(im.getX() - 20);
+            pl.setImageView(im);
+            playerIndex--;
+        }
+    }
+    void moveDown(){
+        if(collisionDetection("Down")) {
+            ImageView im = pl.getImageView();
+            im.setY(im.getY() + 20);
+            pl.setImageView(im);
+            playerIndex += 60;
+        }
+    }
+    void moveUP(){
+        if(collisionDetection("Up")) {
+            ImageView im = pl.getImageView();
+            im.setY(im.getY() - 20);
+            pl.setImageView(im);
+            playerIndex -= 60;
+        }
+    }
+    boolean collisionDetection(String dir){
+        switch(dir){
+            case "Right":
+                if(cellsArr[playerIndex+1] instanceof StoneWall ||cellsArr[playerIndex+1] instanceof TreeWall)
+                    return false;
+                break;
+            case "Left":
+                if(cellsArr[playerIndex-1] instanceof StoneWall ||cellsArr[playerIndex-1] instanceof TreeWall)
+                    return false;
+                break;
+            case "Down":
+                if(cellsArr[playerIndex+60] instanceof StoneWall ||cellsArr[playerIndex+60] instanceof TreeWall)
+                    return false;
+                break;
+
+            case "Up":
+                if(cellsArr[playerIndex-60] instanceof StoneWall ||cellsArr[playerIndex-60] instanceof TreeWall)
+                    return false;
+                break;
+        }
+        return true;
     }
 
 }

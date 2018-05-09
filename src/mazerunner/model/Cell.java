@@ -1,5 +1,7 @@
 package mazerunner.model;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.awt.*;
 
 public abstract class Cell {
@@ -13,6 +15,9 @@ public abstract class Cell {
 
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
+    }
+    public void setImage(Image image) {
+        this.imageView.setImage(image);
     }
     public abstract void draw(Graphics canvas);
 

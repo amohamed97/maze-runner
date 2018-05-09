@@ -2,10 +2,9 @@ package mazerunner.model;
 
 import java.awt.*;
 
-public class Player extends Cell {
+public class EmptyCell extends Cell {
     @Override
     public void draw(Graphics canvas) {
-
 
     }
 }
