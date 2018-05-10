@@ -15,21 +15,26 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class Window extends Application {
-    ArrayList<Cell> walls = new ArrayList<Cell>();
+    Cell[][] walls = new Cell[30][30];
     Player player;
 
     public void start(Stage stage) throws FileNotFoundException {
         player = new Player(5, 7);
-        walls.add(new TreeWall(10, 10));
-        walls.add(new TreeWall(10, 11));
-        walls.add(new TreeWall(11, 10));
+        for(Cell[] row : walls)
+            Arrays.fill(row, null);
+        walls[10][10] = new TreeWall(10, 10);
+        walls[10][11] = new TreeWall(10, 11);
+        walls[11][10] = new TreeWall(11, 10);
         Pane root = new Pane();
         root.getChildren().add(player);
-        root.getChildren().addAll(walls);
+        for(Cell[] row : walls)
+            root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
         root.setBackground(new Background(
                 new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
                         BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
@@ -37,10 +42,9 @@ public class Window extends Application {
 
         Scene scene = new Scene(root, 600, 600);
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            Stream<Cell> wallsStream;
 
             private boolean noWallExists(int row, int col){
-                return wallsStream.noneMatch(w -> w.getRow() == row && w.getCol() == col);
+                return walls[row][col] == null;
             }
 
             private void moveRow(final int rowDiff){
@@ -61,7 +65,6 @@ public class Window extends Application {
 
             @Override
             public void handle(KeyEvent e) {
-                wallsStream = walls.stream();
                 switch (e.getCode()) {
                     case UP:
                     case W:
