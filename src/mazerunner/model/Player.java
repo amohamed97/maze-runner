@@ -1,11 +1,10 @@
 package mazerunner.model;
 
-import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class Player extends Cell {
-    @Override
-    public void draw(Graphics canvas) {
 
-
+    public Player(int row, int col) throws FileNotFoundException {
+        super(row, col, "player.png");
     }
 }

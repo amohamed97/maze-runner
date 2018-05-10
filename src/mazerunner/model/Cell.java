@@ -2,24 +2,19 @@ package mazerunner.model;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 
-public abstract class Cell {
+public class Cell extends ImageView {
     int row,col;
-    ImageView imageView;
 
-
-    public ImageView getImageView() {
-        return imageView;
+    public Cell(int row, int col, String fileName) throws FileNotFoundException {
+        super();
+        setRow(row);
+        setCol(col);
+        setImage(new Image(new FileInputStream(Paths.get("images", fileName).toFile())));
     }
-
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
-    }
-    public void setImage(Image image) {
-        this.imageView.setImage(image);
-    }
-    public abstract void draw(Graphics canvas);
 
     public int getRow() {
         return row;
@@ -27,6 +22,7 @@ public abstract class Cell {
 
     public void setRow(int row) {
         this.row = row;
+        setY(row*20);
     }
 
     public int getCol() {
@@ -35,5 +31,6 @@ public abstract class Cell {
 
     public void setCol(int col) {
         this.col = col;
+        setX(col*20);
     }
 }

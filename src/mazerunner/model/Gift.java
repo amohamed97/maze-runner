@@ -1,4 +1,4 @@
 package mazerunner.model;
 
-public abstract class Gift extends Cell{
-}
+//public abstract class Gift extends Cell{
+//}
