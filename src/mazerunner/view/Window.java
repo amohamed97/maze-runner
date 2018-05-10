@@ -1,4 +1,4 @@
-package mazerunner.controller;
+package mazerunner.view;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -14,8 +14,10 @@ import mazerunner.model.TreeWall;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 public class Window extends Application {
