@@ -21,6 +21,10 @@ public class Cell extends ImageView {
             return;
         }
         setImage(new Image(stream));
+        super.setFitHeight(20);
+        super.setFitWidth(20);
+        super.setPreserveRatio(true);
+
     }
 
     public int getRow() {

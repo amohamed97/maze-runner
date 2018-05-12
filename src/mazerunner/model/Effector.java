@@ -5,5 +5,5 @@ abstract public class Effector extends Cell{
         super(row, col, fileName);
     }
 
-    abstract void effect(Player p);
+    abstract public void effect(Player p);
 }

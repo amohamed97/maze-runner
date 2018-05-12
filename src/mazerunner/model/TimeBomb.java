@@ -8,7 +8,7 @@ public class TimeBomb extends Effector {
 
 
     @Override
-    void effect(Player p) {
+    public void effect(Player p) {
 
     }
 }

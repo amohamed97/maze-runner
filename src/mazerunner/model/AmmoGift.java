@@ -7,7 +7,7 @@ public class AmmoGift extends Effector {
 
 
     @Override
-    void effect(Player p) {
-
+    public void effect(Player p) {
+        p.increaseAmmo();
     }
 }

@@ -8,7 +8,7 @@ import javafx.util.Duration;
 
 public class Player extends Cell {
     int health = 100;
-    int ammo = 0;
+    int ammo = 6;
     int score = 0;
 
     public Player(int row, int col) {
@@ -42,5 +42,17 @@ public class Player extends Cell {
     public void setCol(int col){
         this.col = col;
         playAnimation(xProperty(), col*20);
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public void shoot(){
+        this.ammo--;
+    }
+
+    public void increaseAmmo(){
+        this.ammo += 5;
     }
 }
