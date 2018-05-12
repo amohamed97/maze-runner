@@ -6,7 +6,9 @@ public class TimeBomb extends Effector {
         super(row, col, "bomb.png");
     }
 
-    public void effect(){
-//        Player.getInstance().decreaseHealth(20);
+
+    @Override
+    void effect(Player p) {
+
     }
 }

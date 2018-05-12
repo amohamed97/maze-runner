@@ -5,9 +5,9 @@ public class AmmoGift extends Effector {
         super(row, col, "gift.png");
     }
 
+
     @Override
-    void effect() {
+    void effect(Player p) {
 
     }
-
 }
