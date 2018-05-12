@@ -1,5 +1,11 @@
 package mazerunner.model;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
+import javafx.util.Duration;
+
 public class Player extends Cell {
     static Player player = new Player(0, 0);
 
@@ -25,5 +31,22 @@ public class Player extends Cell {
 
     void changeScore(int change){
         score += change;
+    }
+
+    void playAnimation(DoubleProperty prop, int val){
+        final Timeline timeline = new Timeline();
+        timeline.setAutoReverse(true);
+        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), new KeyValue(prop, val)));
+        timeline.play();
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+        playAnimation(yProperty(), row*20);
+    }
+
+    public void setCol(int col){
+        this.col = col;
+        playAnimation(xProperty(), col*20);
     }
 }
