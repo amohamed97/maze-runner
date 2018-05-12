@@ -19,9 +19,7 @@ public class Engine {
     Player player;
 
     public Engine() throws FileNotFoundException {
-        player = Player.getInstance();
-        player.setRow(4);
-        player.setCol(4);
+        player = new Player(5, 7);
         for(Cell[] row : walls)
             Arrays.fill(row, null);
         walls[10][10] = new TreeWall(10, 10);

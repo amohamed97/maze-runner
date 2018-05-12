@@ -7,7 +7,7 @@ public class HealthBomb extends Effector {
         super(row, col, "bomb.png");
     }
 
-    public void effect(){
-        Player.getInstance().decreaseHealth(20);
+    public void effect(Player p){
+        p.decreaseHealth(20);
     }
 }
