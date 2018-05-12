@@ -5,7 +5,7 @@ public class HealthGift extends Effector {
         super(row, col, "gift.png");
     }
 
-    public void effect(Player p){
-        p.fillHealth();
+    public void effect(){
+        Player.getInstance().fillHealth();
     }
 }

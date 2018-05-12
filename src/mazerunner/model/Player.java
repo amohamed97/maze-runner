@@ -1,11 +1,17 @@
 package mazerunner.model;
 
 public class Player extends Cell {
+    static Player player = new Player(0, 0);
+
+    public static Player getInstance(){
+        return player;
+    }
+
     int health = 100;
     int ammo = 0;
     int score = 0;
 
-    public Player(int row, int col) {
+    private Player(int row, int col) {
         super(row, col, "player.png");
     }
 
