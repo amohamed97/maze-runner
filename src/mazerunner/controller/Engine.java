@@ -18,7 +18,14 @@ public class Engine {
     Cell[][] walls = new Cell[30][30];
     Player player;
 
-    public Engine() throws FileNotFoundException {
+    public static Engine engine = new Engine();
+
+    public static Engine getInstance(){
+        return engine;
+    }
+
+
+    private Engine() {
         player = new Player(5, 7);
         for(Cell[] row : walls)
             Arrays.fill(row, null);
@@ -29,10 +36,14 @@ public class Engine {
         root.getChildren().add(player);
         for(Cell[] row : walls)
             root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
-        root.setBackground(new Background(
-                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
-                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
-                        BackgroundSize.DEFAULT)));
+        try {
+            root.setBackground(new Background(
+                    new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
+                            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+                            BackgroundSize.DEFAULT)));
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
 
     private boolean noWallExists(int row, int col){
