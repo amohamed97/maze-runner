@@ -65,18 +65,12 @@ public class Window extends Application {
         labels[0] = new Label("Start Game");
         labels[0].setStyle("-fx-text-fill: red;" +
                 " -fx-font-size: 30;");
-        labels[0].setLayoutX(200);
-        labels[0].setLayoutY(100);
         labels[1] = new Label("Load Game");
         labels[1].setStyle("-fx-text-fill: white;" +
                 " -fx-font-size: 30;");
-        labels[1].setLayoutY(200);
-        labels[1].setLayoutX(220);
         labels[2] = new Label("Exit");
         labels[2].setStyle("-fx-text-fill: white;" +
                 " -fx-font-size: 30;");
-        labels[2].setLayoutY(300);
-        labels[2].setLayoutX(250);
 
         menuLayout.getChildren().addAll(labels);
 
