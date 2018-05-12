@@ -17,7 +17,6 @@ public class ArmorGift extends Effector {
 
     @Override
     public void effect(Player p) {
-        p.increaseAmmo();
         mediaPlayer.play();
 
     }
