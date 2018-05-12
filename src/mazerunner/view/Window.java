@@ -6,23 +6,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import mazerunner.controller.Engine;
-
-import java.awt.*;
-import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.EventListener;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import mazerunner.controller.Engine;
@@ -37,11 +28,92 @@ public class Window extends Application implements Observer {
     Label health;
     Label ammo;
     Label score;
+    Scene scene;
+    Scene pause;
+    Scene menu;
+    BorderPane border;
+
+
+
+    public void initPause(Stage stage) throws FileNotFoundException {
+        VBox pauseMenu = new VBox();
+        pauseMenu.setBackground(new Background(
+                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "back2.jpg").toString())),
+                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundSize.DEFAULT)));
+        pauseMenu.setAlignment(Pos.CENTER);
+        pauseMenu.setSpacing(50);
+        Label[] labels = new Label[3];
+        AtomicInteger selected = new AtomicInteger();
+        selected.set(0);
+
+        labels[0] = new Label("Resume");
+        labels[0].setStyle("-fx-text-fill: red;" +
+                " -fx-font-size: 30;");
+        labels[1] = new Label("Restart");
+        labels[1].setStyle("-fx-text-fill: white;" +
+                " -fx-font-size: 30;");
+        labels[2] = new Label("Main Menu");
+        labels[2].setStyle("-fx-text-fill: white;" +
+                " -fx-font-size: 30;");
+
+        pauseMenu.getChildren().addAll(labels);
+
+        pause = new Scene(pauseMenu,600,600);
+        pause.setOnKeyPressed(e->{
+            switch (e.getCode()){
+                case DOWN:
+                    if(selected.get() < 2) {
+                        labels[selected.get()].setStyle("-fx-text-fill: white;" +
+                                "-fx-font-size: 30;");
+                        selected.getAndIncrement();
+                        labels[selected.get()].setStyle("-fx-text-fill: red;" +
+                                "-fx-font-size: 30;");
+                    }
+                    break;
+
+                case UP:
+                    if(selected.get() > 0) {
+                        labels[selected.get()].setStyle("-fx-text-fill: white;" +
+                                "-fx-font-size: 30;");
+                        selected.getAndDecrement();
+                        labels[selected.get()].setStyle("-fx-text-fill: red;" +
+                                "-fx-font-size: 30;");
+                    }
+                    break;
+
+                case ENTER:
+                    switch (selected.get()){
+                        case 0:
+                            resume(stage);
+                            break;
+
+                        case 1:
+                            Engine.getInstance().restart();
+                            border.setCenter(Engine.getInstance().root);
+//                            try {
+//                                Thread.sleep(150);
+//                            } catch (InterruptedException e1) {
+//                                e1.printStackTrace();
+//                            }
+                            stage.setScene(scene);
+                            break;
+
+                        case 2:
+                            stage.setScene(menu);
+                            break;
+                    }
+            }
+        });
+    }
+
+
 
     public void startGame(Stage stage) throws FileNotFoundException {
-                    BorderPane border = new BorderPane();
+                    initPause(stage);
+                    border = new BorderPane();
                     border.setCenter(Engine.getInstance().root);
-                    HBox status = new HBox(112);
+                    HBox status = new HBox(167);
                     health = new Label("Health : 100");
                     ammo = new Label("Ammo : 100");
                     score = new Label("Score : 100");
@@ -49,14 +121,13 @@ public class Window extends Application implements Observer {
                     minMenu.setShape(new Circle(1.5));
                     ImageView im = new ImageView(new Image(new FileInputStream(Paths.get("images", "pause.png").toString())));
                     im.setFitWidth(10);im.setFitHeight(10);
-                    minMenu.setGraphic(im);
-                    status.getChildren().addAll(health,ammo,score,minMenu);
+                    status.getChildren().addAll(health,ammo,score);
 //        status.setBackground(new Background(
 //                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
 //                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
 //                        BackgroundSize.DEFAULT)));
                     border.setBottom(status);
-        Scene scene = new Scene(border, 600, 625);
+        scene = new Scene(border, 600, 625);
         scene.setOnKeyPressed(e2 -> {
             switch (e2.getCode()) {
                 case UP:
@@ -74,11 +145,25 @@ public class Window extends Application implements Observer {
                 case RIGHT:
                 case D:
                     Engine.getInstance().moveCol(1);
+                    break;
+
+                case ESCAPE:
+                    pause(stage);
             }
         });
         stage.setScene(scene);
     }
 
+
+
+    public void resume(Stage stage){
+        stage.setScene(scene);
+    }
+
+
+    public void pause(Stage stage){
+        stage.setScene(pause);
+    }
 
 
 
@@ -110,7 +195,7 @@ public class Window extends Application implements Observer {
 
         menuLayout.getChildren().addAll(labels);
 
-        Scene menu = new Scene(menuLayout,600,600);
+        menu = new Scene(menuLayout,600,600);
         menu.setOnKeyPressed(e->{
             switch (e.getCode()){
                 case DOWN:

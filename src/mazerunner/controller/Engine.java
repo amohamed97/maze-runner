@@ -74,6 +74,53 @@ public class Engine {
         }
     }
 
+    public void restart(){
+
+        player.setRow(5);
+        player.setCol(7);
+        player.setAmmo(6);
+        player.setHealth(100);
+        player.setScore(0);
+
+
+        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
+        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
+        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
+        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
+        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
+        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
+        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
+        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
+        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
+        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
+        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
+        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
+        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
+        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+
+
+        root = new Pane();
+        root.getChildren().add(player);
+        for(Cell[] row : walls)
+            root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
+
+        for(Cell[] row : effectors)
+            root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
+
+        try {
+            root.setBackground(new Background(
+                    new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "floor3.png").toString())),
+                            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+                            BackgroundSize.DEFAULT)));
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
     private boolean noWallExists(int row, int col){
         return walls[row][col] == null;
     }

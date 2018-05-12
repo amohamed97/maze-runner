@@ -103,4 +103,19 @@ public class Player extends Cell {
         observers.forEach(o -> o.update(this));
     }
 
+
+    public void setHealth(int health) {
+        this.health = health;
+        notifyAllObservers();
+    }
+
+    public void setAmmo(int ammo) {
+        this.ammo = ammo;
+        notifyAllObservers();
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+        notifyAllObservers();
+    }
 }
