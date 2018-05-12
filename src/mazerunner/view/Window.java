@@ -18,12 +18,40 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.EventListener;
 import java.util.concurrent.atomic.AtomicInteger;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
+import mazerunner.controller.Engine;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 
 public class Window extends Application {
 
 
-    public void startGame(Stage stage){
-        Scene scene = new Scene(Engine.getInstance().root, 600, 600);
+    public void startGame(Stage stage) throws FileNotFoundException {
+        BorderPane border = new BorderPane();
+                    border.setCenter(Engine.getInstance().root);
+                    HBox status = new HBox(132);
+                    Label health = new Label("Health : 100");
+                    Label ammo = new Label("Ammo : 100");
+                    Label score = new Label("Score : 100");
+                    Button minMenu = new Button();
+                    minMenu.setShape(new Circle(1.5));
+                    ImageView im = new ImageView(new Image(new FileInputStream(Paths.get("images", "pause.png").toString())));
+                    im.setFitWidth(10);im.setFitHeight(10);
+                    minMenu.setGraphic(im);
+                    status.getChildren().addAll(health,ammo,score,minMenu);
+//        status.setBackground(new Background(
+//                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
+//                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+//                        BackgroundSize.DEFAULT)));
+                    border.setBottom(status);
+        Scene scene = new Scene(border, 600, 600);
         scene.setOnKeyPressed(e2 -> {
             switch (e2.getCode()) {
                 case UP:
@@ -46,8 +74,10 @@ public class Window extends Application {
         stage.setScene(scene);
     }
 
-    public void start(Stage stage) throws FileNotFoundException {
 
+
+
+    public void start(Stage stage) throws FileNotFoundException {
         stage.setTitle("Maze Runner");
         stage.setResizable(false);
 
@@ -100,7 +130,11 @@ public class Window extends Application {
                 case ENTER:
                     switch (selected.get()){
                         case 0:
-                            startGame(stage);
+                            try {
+                                startGame(stage);
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
                             break;
 
                         case 2:
@@ -120,4 +154,6 @@ public class Window extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }
