@@ -31,6 +31,9 @@ public class Player extends Cell {
         super(row, col, "playerGun.png");
     }
 
+    protected Player() {
+    }
+
     void fillHealth(){
         health = 100;
     }

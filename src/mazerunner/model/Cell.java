@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 public class Cell extends ImageView {
     int row,col;
 
+    protected Cell(){}
+
     public Cell(int row, int col, String fileName) {
         super();
         setRow(row);
