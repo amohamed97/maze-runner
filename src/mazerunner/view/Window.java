@@ -1,23 +1,11 @@
 package mazerunner.view;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import mazerunner.controller.Engine;
-import mazerunner.model.Cell;
-import mazerunner.model.Player;
-import mazerunner.model.TreeWall;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.stream.Collectors;
-
 
 public class Window extends Application {
     Engine engine;

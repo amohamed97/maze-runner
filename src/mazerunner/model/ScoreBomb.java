@@ -1,10 +1,13 @@
 package mazerunner.model;
 
-import java.awt.*;
+/*
+public class ScoreBomb extends Effector {
+    public ScoreBomb(int row, int col){
+        super(row, col, "bomb.png");
+    }
 
-//public class ScoreBomb extends Bomb {
-//    @Override
-//    public void draw(Graphics canvas) {
-//
-//    }
-//}
+    public void effect(Player p){
+        p.changeScore(-20);
+    }
+}
+*/

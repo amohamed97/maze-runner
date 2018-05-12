@@ -1,10 +1,11 @@
 package mazerunner.model;
 
-import java.awt.*;
+public class HealthGift extends Effector {
+    public HealthGift(int row, int col){
+        super(row, col, "gift.png");
+    }
 
-//public class HealthGift extends Gift {
-//    @Override
-//    public void draw(Graphics canvas) {
-//
-//    }
-//}
+    public void effect(Player p){
+        p.fillHealth();
+    }
+}

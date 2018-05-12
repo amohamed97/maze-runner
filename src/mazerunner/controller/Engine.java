@@ -6,6 +6,7 @@ import mazerunner.model.Cell;
 import mazerunner.model.Player;
 import mazerunner.model.TreeWall;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;

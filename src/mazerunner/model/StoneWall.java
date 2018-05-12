@@ -1,9 +1,10 @@
 package mazerunner.model;
 
-import java.awt.*;
-/*
-public class StoneWall extends Wall {
+import java.io.FileNotFoundException;
 
+public class StoneWall extends Cell {
+    public StoneWall(int row, int col) {
+        super(row, col, "stone20x20.png");
+    }
 
 }
-*/

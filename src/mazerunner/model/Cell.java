@@ -9,11 +9,18 @@ import java.nio.file.Paths;
 public class Cell extends ImageView {
     int row,col;
 
-    public Cell(int row, int col, String fileName) throws FileNotFoundException {
+    public Cell(int row, int col, String fileName) {
         super();
         setRow(row);
         setCol(col);
-        setImage(new Image(new FileInputStream(Paths.get("images", fileName).toFile())));
+        FileInputStream stream;
+        try{
+            stream = new FileInputStream(Paths.get("images", fileName).toFile());
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+            return;
+        }
+        setImage(new Image(stream));
     }
 
     public int getRow() {
