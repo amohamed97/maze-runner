@@ -3,6 +3,7 @@ package mazerunner.controller;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import mazerunner.model.Cell;
+import mazerunner.model.CellFactory;
 import mazerunner.model.Player;
 import mazerunner.model.TreeWall;
 
@@ -17,6 +18,7 @@ public class Engine {
     public Pane root;
     Cell[][] walls = new Cell[30][30];
     Player player;
+    CellFactory cellFactory = new CellFactory();
 
     public static Engine engine = new Engine();
 
@@ -29,9 +31,9 @@ public class Engine {
         player = new Player(5, 7);
         for(Cell[] row : walls)
             Arrays.fill(row, null);
-        walls[10][10] = new TreeWall(10, 10);
-        walls[10][11] = new TreeWall(10, 11);
-        walls[11][10] = new TreeWall(11, 10);
+        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
+        walls[10][11] = cellFactory.getCell("TreeWall",10, 11);
+        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
         root = new Pane();
         root.getChildren().add(player);
         for(Cell[] row : walls)
