@@ -36,7 +36,7 @@ public class Window extends Application {
     public void startGame(Stage stage) throws FileNotFoundException {
         BorderPane border = new BorderPane();
                     border.setCenter(Engine.getInstance().root);
-                    HBox status = new HBox(132);
+                    HBox status = new HBox(112);
                     Label health = new Label("Health : 100");
                     Label ammo = new Label("Ammo : 100");
                     Label score = new Label("Score : 100");
@@ -51,7 +51,7 @@ public class Window extends Application {
 //                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
 //                        BackgroundSize.DEFAULT)));
                     border.setBottom(status);
-        Scene scene = new Scene(border, 600, 600);
+        Scene scene = new Scene(border, 600, 625);
         scene.setOnKeyPressed(e2 -> {
             switch (e2.getCode()) {
                 case UP:
@@ -83,7 +83,7 @@ public class Window extends Application {
 
         VBox menuLayout = new VBox();
         menuLayout.setBackground(new Background(
-                new BackgroundImage(new Image(new FileInputStream(Paths.get("..", "back2.jpg").toString())),
+                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "back2.jpg").toString())),
                         BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                         BackgroundSize.DEFAULT)));
         menuLayout.setAlignment(Pos.CENTER);
