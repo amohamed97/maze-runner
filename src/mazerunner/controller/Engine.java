@@ -15,6 +15,11 @@ public class Engine {
     public Pane root;
     Cell[][] walls = new Cell[30][30];
     Effector[][] effectors = new Effector[30][30];
+
+    public Player getPlayer() {
+        return player;
+    }
+
     Player player;
     CellFactory cellFactory = new CellFactory();
 

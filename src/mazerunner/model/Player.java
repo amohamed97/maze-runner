@@ -10,6 +10,7 @@ import javafx.util.Duration;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class Player extends Cell {
     int health = 100;
@@ -17,6 +18,8 @@ public class Player extends Cell {
     int score = 0;
     private static Image playerStand;
     private static Image playerMove;
+
+    ArrayList<Observer> observers = new ArrayList<Observer>();
 
     static{
         try {
@@ -36,14 +39,17 @@ public class Player extends Cell {
 
     void fillHealth(){
         health = 100;
+        notifyAllObservers();
     }
 
     void decreaseHealth(int change){
         health -= change;
+        notifyAllObservers();
     }
 
     void changeScore(int change){
         score += change;
+        notifyAllObservers();
     }
 
     void playAnimation(DoubleProperty prop, int val){
@@ -71,11 +77,30 @@ public class Player extends Cell {
         return health;
     }
 
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
     public void shoot(){
         this.ammo--;
+        notifyAllObservers();
     }
 
     public void increaseAmmo(){
         this.ammo += 5;
+        notifyAllObservers();
     }
+
+    public void attach(Observer o){
+        observers.add(o);
+    }
+
+    public void notifyAllObservers() {
+        observers.forEach(o -> o.update(this));
+    }
+
 }

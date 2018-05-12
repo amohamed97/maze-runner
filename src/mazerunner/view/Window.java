@@ -26,20 +26,25 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import mazerunner.controller.Engine;
+import mazerunner.model.Observer;
+import mazerunner.model.Player;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
-public class Window extends Application {
-
+public class Window extends Application implements Observer {
+    Label health;
+    Label ammo;
+    Label score;
 
     public void startGame(Stage stage) throws FileNotFoundException {
-        BorderPane border = new BorderPane();
+                    BorderPane border = new BorderPane();
                     border.setCenter(Engine.getInstance().root);
                     HBox status = new HBox(112);
-                    Label health = new Label("Health : 100");
-                    Label ammo = new Label("Ammo : 100");
-                    Label score = new Label("Score : 100");
+                    health = new Label("Health : 100");
+                    ammo = new Label("Ammo : 100");
+                    score = new Label("Score : 100");
                     Button minMenu = new Button();
                     minMenu.setShape(new Circle(1.5));
                     ImageView im = new ImageView(new Image(new FileInputStream(Paths.get("images", "pause.png").toString())));
@@ -78,6 +83,7 @@ public class Window extends Application {
 
 
     public void start(Stage stage) throws FileNotFoundException {
+        Engine.getInstance().getPlayer().attach(this);
         stage.setTitle("Maze Runner");
         stage.setResizable(false);
 
@@ -155,5 +161,9 @@ public class Window extends Application {
         launch(args);
     }
 
-
+    public void update(Player p){
+        health.setText("Health :"+p.getHealth());
+        ammo.setText("Ammo :"+p.getAmmo());
+        score.setText("Score :"+p.getScore());
+    }
 }
