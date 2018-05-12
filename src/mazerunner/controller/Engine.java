@@ -54,7 +54,7 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
-
+        effectors[2][20] = (ArmorGift) cellFactory.getCell("ArmorGift",2,20);
 
         root = new Pane();
         root.getChildren().add(player);

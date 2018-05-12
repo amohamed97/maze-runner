@@ -6,10 +6,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import mazerunner.controller.Engine;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.scene.control.Button;
@@ -110,6 +112,10 @@ public class Window extends Application implements Observer {
 
 
     public void startGame(Stage stage) throws FileNotFoundException {
+        String filename = new String();
+        filename = Paths.get("sound","jazz.mp3").toString();
+        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(filename).toURI().toString()));
+        mediaPlayer.play();
                     initPause(stage);
                     border = new BorderPane();
                     border.setCenter(Engine.getInstance().root);

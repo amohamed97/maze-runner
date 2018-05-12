@@ -21,6 +21,8 @@ public class CellFactory {
 
             case "ScoreBomb":
                 return new TimeBomb(row,column);
+            case "ArmorGift":
+                return new ArmorGift(row,column);
 
 
 
