@@ -350,6 +350,7 @@ public class Engine {
         JSONArray wallsArr = new JSONArray();
         JSONArray playerArr = new JSONArray();
         JSONArray effectorsArr = new JSONArray();
+        JSONArray mementoArr = new JSONArray();
         try(FileWriter file = new FileWriter("save.json")){
             for(int i =0; i< HEIGHT; i++){
                 for(int j=0; j<WIDTH; j++){
@@ -403,6 +404,16 @@ public class Engine {
             obj.put("col",getPlayer().getCol());
             playerArr.add(obj);
             rootObj.put("player",playerArr);
+            obj = new JSONObject();
+            if(Engine.getInstance().getCheckpoint() != null) {
+                Integer[] memento =Engine.getInstance().getCheckpoint().getState();
+                obj.put("health", memento[0]);
+                obj.put("ammo", memento[1]);
+                obj.put("row", memento[2]);
+                obj.put("col", memento[3]);
+            }
+            mementoArr.add(obj);
+            rootObj.put("memento",mementoArr);
             file.write(rootObj.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
@@ -422,9 +433,11 @@ public class Engine {
             JSONArray wallsArr = (JSONArray) objfile.get("walls");
             JSONArray effectorsArr = (JSONArray) objfile.get("effectors");
             JSONArray playerArr = (JSONArray) objfile.get("player");
+            JSONArray mementoArr = (JSONArray) objfile.get("memento");
             Iterator<JSONObject> iterator1 = wallsArr.iterator();
             Iterator<JSONObject> iterator2 = effectorsArr.iterator();
             Iterator<JSONObject> iterator3 = playerArr.iterator();
+            Iterator<JSONObject> iterator4 = mementoArr.iterator();
 
 
             while (iterator1.hasNext()) {
@@ -446,6 +459,12 @@ public class Engine {
                 getPlayer().setHealth(Integer.parseInt(obj.get("health").toString()));
                 getPlayer().setAmmo(Integer.parseInt(obj.get("ammo").toString()));
                 getPlayer().setScore(Integer.parseInt(obj.get("score").toString()));
+            }
+            if(iterator4.hasNext()) {
+                JSONObject obj = iterator4.next();
+                Integer[] memento = new Integer[]{Integer.parseInt(obj.get("health").toString()), Integer.parseInt(obj.get("ammo").toString()),
+                        Integer.parseInt(obj.get("row").toString()), Integer.parseInt(obj.get("col").toString())};
+                Engine.getInstance().setCheckpoint(new Memento(memento));
             }
         }
         catch (FileNotFoundException e) { e.printStackTrace();}
