@@ -15,33 +15,86 @@ import java.nio.file.Paths;
 public class ArmoredPlayer extends Player {
     public Player player;
 
-    private static Image playerStand;
-    private static Image playerMove;
-
-    static{
+    public ArmoredPlayer(Player player){
+        this.player = player;
         try {
-            playerStand = new Image(new FileInputStream(Paths.get("images", "playerGunArmor.png").toFile()));
-            playerMove = new Image(new FileInputStream(Paths.get("images", "movementArmor.gif").toFile()));
+            player.setPlayerStandImage("playerGunArmor.png");
+            player.setPlayerMoveImage("movementArmor.gif");
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
     }
 
-    public ArmoredPlayer(Player player){
-        this.player = player;
-        player.setImage(playerStand);
-        super.setFitHeight(Engine.getCellSize());
-        super.setFitWidth(Engine.getCellSize());
+    public void decreaseHealth(int change){
+        Engine.getInstance().dearmorize();
     }
 
-    public void decreaseHealth(int change){}
+    public Player getPlayer(){
+        return player;
+    }
 
-    public void playAnimation(Property prop, int val){
-        setImage(playerMove);
-        final Timeline timeline = new Timeline();
-        timeline.setAutoReverse(true);
-        timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100), new KeyValue(prop, val)));
-        timeline.play();
-        timeline.setOnFinished(e-> setImage(playerStand));
+    void fillHealth(){
+        player.fillHealth();
+    }
+
+    void changeScore(int change){
+        player.changeScore(change);
+    }
+
+    public void setRow(int row){
+        player.setRow(row);
+    }
+
+    public void setCol(int col){
+        player.setCol(col);
+    }
+
+    public int getRow(){
+        return player.getRow();
+    }
+
+    public int getCol(){
+        return player.getCol();
+    }
+
+    public int getHealth(){
+        return player.getHealth();
+    }
+
+    public int getAmmo() {
+        return player.getAmmo();
+    }
+
+    public int getScore() {
+        return player.getScore();
+    }
+
+    public void shoot(){
+        player.shoot();
+    }
+
+    public void increaseAmmo(){
+        player.increaseAmmo();
+    }
+
+    public void attach(Observer o){
+        player.attach(o);
+    }
+
+    public void notifyAllObservers() {
+        player.notifyAllObservers();
+    }
+
+
+    public void setHealth(int health) {
+        player.setHealth(health);
+    }
+
+    public void setAmmo(int ammo) {
+        player.setAmmo(ammo);
+    }
+
+    public void setScore(int score) {
+        player.setScore(score);
     }
 }

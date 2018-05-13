@@ -190,7 +190,19 @@ public class Engine {
 
     }
 
+    public void armorize(){
+        player = new ArmoredPlayer(player);
+    }
 
+    public void dearmorize(){
+        player = ((ArmoredPlayer) player).getPlayer();
+        try {
+            player.setPlayerStandImage("playerGun.png");
+            player.setPlayerMoveImage("movement.gif");
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
+    }
 
     private boolean noWallExists(int row, int col){
         return walls[row][col] == null;

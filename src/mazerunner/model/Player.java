@@ -16,8 +16,8 @@ public class Player extends Cell {
     int health = 100;
     int ammo = 6;
     int score = 0;
-    private static Image playerStand;
-    private static Image playerMove;
+    private Image playerStand;
+    private Image playerMove;
 
     public Direction getDirection() {
         return direction;
@@ -28,16 +28,24 @@ public class Player extends Cell {
     ArrayList<Observer> observers = new ArrayList<Observer>();
 
     static{
+    }
+
+    public Player(int row, int col) {
+        super(row, col, "playerGun.png");
         try {
-            playerStand = new Image(new FileInputStream(Paths.get("images", "playerGun.png").toFile()));
-            playerMove = new Image(new FileInputStream(Paths.get("images", "movement.gif").toFile()));
+            setPlayerStandImage("playerGun.png");
+            setPlayerMoveImage("movement.gif");
         }catch (FileNotFoundException e){
             e.printStackTrace();
         }
     }
 
-    public Player(int row, int col) {
-        super(row, col, "playerGun.png");
+    public void setPlayerStandImage(String filename) throws FileNotFoundException{
+        playerStand = new Image(new FileInputStream(Paths.get("images", filename).toFile()));
+    }
+
+    public void setPlayerMoveImage(String filename) throws FileNotFoundException{
+        playerMove = new Image(new FileInputStream(Paths.get("images", filename).toFile()));
     }
 
     protected Player() {
