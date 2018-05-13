@@ -10,5 +10,6 @@ public class Checkpoint extends Effector {
     @Override
     public void effect(Player p) {
         Engine.getInstance().saveToMemento();
+        p.changeScore(50);
     }
 }
