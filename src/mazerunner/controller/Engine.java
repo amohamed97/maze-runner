@@ -99,7 +99,7 @@ public class Engine {
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
 
 
-        root = new Pane();
+        root.getChildren().clear();
         root.getChildren().add(player);
         for(Cell[] row : walls)
             root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
