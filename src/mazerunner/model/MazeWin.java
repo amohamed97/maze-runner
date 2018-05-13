@@ -14,7 +14,6 @@ public class MazeWin extends Effector {
     public MazeWin(int row, int col){
         super(row, col, "trophy.png");
         soundFile= Paths.get("sound","win.wav").toString();
-        System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }
 

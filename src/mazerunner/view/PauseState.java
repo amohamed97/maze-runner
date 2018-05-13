@@ -29,7 +29,7 @@ public class PauseState extends WindowState {
                         BackgroundSize.DEFAULT)));
         pauseMenu.setAlignment(Pos.CENTER);
         pauseMenu.setSpacing(50);
-        Label[] labels = new Label[3];
+        Label[] labels = new Label[4];
         AtomicInteger selected = new AtomicInteger();
         selected.set(0);
 
@@ -39,17 +39,25 @@ public class PauseState extends WindowState {
         labels[1] = new Label("Restart");
         labels[1].setStyle("-fx-text-fill: white;" +
                 " -fx-font-size: 30;");
-        labels[2] = new Label("Main Menu");
+
+        labels[2] = new Label("Save Game");
         labels[2].setStyle("-fx-text-fill: white;" +
+                " -fx-font-size: 30;");
+        labels[3] = new Label("Main Menu");
+        labels[3].setStyle("-fx-text-fill: white;" +
                 " -fx-font-size: 30;");
 
         pauseMenu.getChildren().addAll(labels);
-
+        Label saved = new Label("Saved");
+        saved.setStyle("-fx-text-fill: green;" +
+                "-fx-font-size: 20;");
+        pauseMenu.getChildren().add(saved);
+        saved.setVisible(false);
         scene = new Scene(pauseMenu,(Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize()));
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case DOWN:
-                    if (selected.get() < 2) {
+                    if (selected.get() < 3) {
                         labels[selected.get()].setStyle("-fx-text-fill: white;" +
                                 "-fx-font-size: 30;");
                         selected.getAndIncrement();
@@ -85,6 +93,11 @@ public class PauseState extends WindowState {
                             break;
 
                         case 2:
+                            Engine.getInstance().save();
+                            saved.setVisible(true);
+                            break;
+
+                        case 3:
                             try {
                                 win.setState(new StartState(win));
                             }catch (FileNotFoundException ex){

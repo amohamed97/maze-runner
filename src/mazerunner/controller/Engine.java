@@ -17,9 +17,14 @@ import java.awt.event.ActionEvent;
 import java.beans.EventHandler;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Engine {
 
@@ -33,6 +38,7 @@ public class Engine {
 
     Cell[][] walls = new Cell[HEIGHT][WIDTH];
     Effector[][] effectors = new Effector[HEIGHT][WIDTH];
+    int i,j;
 
 
     Memento checkpoint;
@@ -58,22 +64,22 @@ public class Engine {
         filename= Paths.get("sound","shoot.wav").toString();
 
 
-        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
-        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
-        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
-        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
-        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
-        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
-        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
-        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
-        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
-        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
-        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
-        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
-        effectors[2][20] = (ArmorGift) cellFactory.getCell("ArmorGift",2,20);
-        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
+//        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
+//        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
+//        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
+//        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
+//        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
+//        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
+//        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
+//        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
+//        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
+//        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
+//        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
+//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
+//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
+//        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+//        effectors[2][20] = (ArmorGift) cellFactory.getCell("ArmorGift",2,20);
+//        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
         root = new Pane();
         root.getChildren().add(player);
         for(Cell[] row : walls)
@@ -154,6 +160,7 @@ public class Engine {
         effectors[14][10] = (Checkpoint) cellFactory.getCell("Checkpoint",14,10);
         effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
         effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
+//        generate(0,0);
         walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
         walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
         walls[11][10] = cellFactory.getCell("TreeWall",11,10);
@@ -214,7 +221,6 @@ public class Engine {
     public void moveRow(final int rowDiff){
         final int playerRow = player.getRow() + rowDiff;
         final int playerCol = player.getCol();
-        System.out.println(playerRow < HEIGHT);
         if(playerRow >= 0 && playerRow < HEIGHT)
             if (noWallExists(playerRow, playerCol)) {
                 if(effectorExists(playerRow,playerCol)) {
@@ -226,13 +232,11 @@ public class Engine {
 
 
             }
-        System.out.println(player.getHealth());
     }
 
     public void moveCol(final int colDiff){
         final int playerRow = player.getRow();
         final int playerCol = player.getCol() + colDiff;
-        System.out.println(playerCol < WIDTH);
         if(playerCol >= 0 && playerCol < WIDTH)
             if (noWallExists(playerRow, playerCol)) {
                 if(effectorExists(playerRow,playerCol)) {
@@ -242,7 +246,6 @@ public class Engine {
                 }
                 player.setCol(playerCol);
             }
-        System.out.println(player.getHealth());
     }
 
     public void saveToMemento(){
@@ -257,7 +260,6 @@ public class Engine {
     void bulletMoveRow(Bullet bullet, int rowDiff){
         final int bulletRow = bullet.getRow() + rowDiff;
         final int bulletCol = bullet.getCol();
-        System.out.println(bulletRow < HEIGHT);
         if(bulletRow >= 0 && bulletRow < HEIGHT) {
             Cell wall = walls[bulletRow][bulletCol];
             if (wall == null) {
@@ -274,7 +276,6 @@ public class Engine {
     void bulletMoveColumn(Bullet bullet, int colDiff){
         final int bulletRow = bullet.getRow();
         final int bulletCol = bullet.getCol() + colDiff;
-        System.out.println(bulletRow < WIDTH);
         if(bulletCol >= 0 && bulletCol < WIDTH) {
             Cell wall = walls[bulletRow][bulletCol];
             if (wall == null) {
@@ -334,28 +335,136 @@ public class Engine {
         return CELL_SIZE;
     }
     public void save(){
-        try {
-            File file = new File("save.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(getPlayer().getHealth()+" "+getPlayer().getAmmo()+" "+getPlayer().getScore());
-            writer.close();
+        int x;
+        JSONObject rootObj = new JSONObject();
+        JSONObject obj;
+        JSONArray wallsArr = new JSONArray();
+        JSONArray playerArr = new JSONArray();
+        JSONArray effectorsArr = new JSONArray();
+        try(FileWriter file = new FileWriter("save.json")){
+            for(int i =0; i< HEIGHT; i++){
+                for(int j=0; j<WIDTH; j++){
+                    if(walls[i][j] == null){continue;}
+                    else {
+                        x = ijTOn(i, j);
+                        obj = new JSONObject();
+                        obj.put("place", x);
+                        if (walls[i][j] instanceof StoneWall) {
+                            obj.put("type", "StoneWall");
+                        } else if (walls[i][j] instanceof TreeWall) {
+                            obj.put("type", "TreeWall");
+                        }
+                        wallsArr.add(obj);
+                    }
+                }
+            }
+            rootObj.put("walls",wallsArr);
+            for(int i =0; i< HEIGHT; i++){
+                for(int j=0; j<WIDTH; j++){
+                    if(effectors[i][j] == null){continue;}
+                    else {
+                        x = ijTOn(i, j);
+                        obj = new JSONObject();
+                        obj.put("place", x);
+                        if (effectors[i][j] instanceof HealthGift) {
+                            obj.put("type", "HealthGift");
+                        } else if (effectors[i][j] instanceof HealthBomb) {
+                            obj.put("type", "HealthBomb");
+                        } else if (effectors[i][j] instanceof AmmoGift) {
+                            obj.put("type", "AmmoGift");
+                        } else if (effectors[i][j] instanceof TimeBomb) {
+                            obj.put("type", "TimeBomb");
+                        } else if (effectors[i][j] instanceof ArmorGift) {
+                            obj.put("type", "ArmorGift");
+                        } else if (effectors[i][j] instanceof Checkpoint) {
+                            obj.put("type", "CheckPoint");
+                        } else if (effectors[i][j] instanceof MazeWin) {
+                            obj.put("type", "MazeWin");
+                        }
+                        effectorsArr.add(obj);
+                    }
+                }
+            }
+            rootObj.put("effectors",effectorsArr);
+            obj = new JSONObject();
+            obj.put("health",getPlayer().getHealth());
+            obj.put("ammo",getPlayer().getAmmo());
+            obj.put("score",getPlayer().getScore());
+            obj.put("row",getPlayer().getRow());
+            obj.put("col",getPlayer().getCol());
+            playerArr.add(obj);
+            rootObj.put("player",playerArr);
+            file.write(rootObj.toJSONString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
     public void load(){
-        try (FileReader file = new FileReader("save.txt")) {
-            Scanner scanner = new Scanner(file);
-            getPlayer().setHealth(Integer.parseInt(scanner.next()));
-            getPlayer().setAmmo(Integer.parseInt(scanner.next()));
-            getPlayer().setScore(Integer.parseInt(scanner.next()));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        for(Cell[] row : walls)
+            Arrays.fill(row, null);
+
+        for(Effector[] row : effectors)
+            Arrays.fill(row, null);
+        JSONParser parser = new JSONParser();
+        int n;
+        try {
+            Object object = parser.parse(new FileReader("save.json"));
+            JSONObject objfile = (JSONObject) object;
+            JSONArray wallsArr = (JSONArray) objfile.get("walls");
+            JSONArray effectorsArr = (JSONArray) objfile.get("effectors");
+            JSONArray playerArr = (JSONArray) objfile.get("player");
+            Iterator<JSONObject> iterator1 = wallsArr.iterator();
+            Iterator<JSONObject> iterator2 = effectorsArr.iterator();
+            Iterator<JSONObject> iterator3 = playerArr.iterator();
+
+
+            while (iterator1.hasNext()) {
+                JSONObject obj = iterator1.next();
+                n = Integer.parseInt(obj.get("place").toString());
+                nTOij(n);
+                walls[i][j] = cellFactory.getCell(obj.get("type").toString(),i,j);
+            }
+            while (iterator2.hasNext()) {
+                JSONObject obj = iterator2.next();
+                n = Integer.parseInt(obj.get("place").toString());
+                nTOij(n);
+                effectors[i][j] = (Effector) cellFactory.getCell(obj.get("type").toString(),i,j);
+            }
+            while (iterator3.hasNext()) {
+                JSONObject obj = iterator3.next();
+                getPlayer().setRow(Integer.parseInt(obj.get("row").toString()));
+                getPlayer().setCol(Integer.parseInt(obj.get("col").toString()));
+                getPlayer().setHealth(Integer.parseInt(obj.get("health").toString()));
+                getPlayer().setAmmo(Integer.parseInt(obj.get("ammo").toString()));
+                getPlayer().setScore(Integer.parseInt(obj.get("score").toString()));
+            }
+        }
+        catch (FileNotFoundException e) { e.printStackTrace();}
+        catch (IOException e) { e.printStackTrace();}
+        catch (ParseException e) { e.printStackTrace();}
+        catch (Exception e) { e.printStackTrace();}
+
+
+        root = new Pane();
+        root.getChildren().add(player);
+        for(Cell[] row : walls)
+            root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
+
+        for(Cell[] row : effectors)
+            root.getChildren().addAll(Arrays.stream(row).filter(s -> s != null).collect(Collectors.toList()));
+
+        try {
+            root.setBackground(new Background(
+                    new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "floor3.png").toString())),
+                            BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
+                            BackgroundSize.DEFAULT)));
+        }catch (FileNotFoundException e){
             e.printStackTrace();
         }
-    }
 
+
+
+    }
     public void setWindow(Window win){
         this.win = win;
     }
@@ -364,4 +473,11 @@ public class Engine {
         win.setState(new VictoryState(win));
     }
 
+    public int ijTOn(int i, int j){
+        return j+(i*WIDTH);
+    }
+    public void nTOij(int n){
+        i = n/WIDTH;
+        j = n%WIDTH;
+    }
 }

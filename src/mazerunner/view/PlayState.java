@@ -77,6 +77,8 @@ public class PlayState extends WindowState implements Observer {
                     break;
                 case SPACE:
                     Engine.getInstance().shoot();
+                    break;
+
             }
         });
         update(Engine.getInstance().getPlayer());

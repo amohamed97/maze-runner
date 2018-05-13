@@ -11,7 +11,6 @@ public class ArmorGift extends Effector {
     public ArmorGift(int row, int col){
         super(row, col, "shield.png");
         soundFile= Paths.get("sound","shield.wav").toString();
-        System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }
 

@@ -71,10 +71,21 @@ public class StartState extends WindowState {
                             }
                             break;
 
+
+                        case 1:
+                            Engine.getInstance().load();
+                            try {
+                                win.setState(new PlayState(win));
+                            } catch (FileNotFoundException e1) {
+                                e1.printStackTrace();
+                            }
+                            break;
+
                         case 2:
                             win.stage.close();
                             break;
                     }
+
             }
         });
     }
