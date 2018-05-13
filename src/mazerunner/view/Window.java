@@ -93,11 +93,6 @@ public class Window extends Application implements Observer {
                         case 1:
                             Engine.getInstance().restart();
                             border.setCenter(Engine.getInstance().root);
-//                            try {
-//                                Thread.sleep(150);
-//                            } catch (InterruptedException e1) {
-//                                e1.printStackTrace();
-//                            }
                             stage.setScene(scene);
                             break;
 
@@ -128,10 +123,6 @@ public class Window extends Application implements Observer {
                     ImageView im = new ImageView(new Image(new FileInputStream(Paths.get("images", "pause.png").toString())));
                     im.setFitWidth(10);im.setFitHeight(10);
                     status.getChildren().addAll(health,ammo,score);
-//        status.setBackground(new Background(
-//                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
-//                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
-//                        BackgroundSize.DEFAULT)));
                     border.setBottom(status);
         scene = new Scene(border, (Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize())+25);
         scene.setOnKeyPressed(e2 -> {
@@ -232,6 +223,9 @@ public class Window extends Application implements Observer {
                             } catch (FileNotFoundException e1) {
                                 e1.printStackTrace();
                             }
+                            Engine.getInstance().restart();
+                            border.setCenter(Engine.getInstance().root);
+                            stage.setScene(scene);
                             break;
 
                         case 2:
