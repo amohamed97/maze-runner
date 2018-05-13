@@ -101,4 +101,8 @@ public class ArmoredPlayer extends Player {
     public Direction getDirection(){
         return player.getDirection();
     }
+
+    public void setDirection(Direction direction){
+        player.setDirection(direction);
+    }
 }

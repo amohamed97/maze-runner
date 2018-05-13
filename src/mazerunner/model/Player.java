@@ -40,7 +40,7 @@ public class Player extends Cell {
         }
     }
 
-    Direction direction;
+    Direction direction= Direction.UP;
 
     ArrayList<Observer> observers = new ArrayList<Observer>();
 
