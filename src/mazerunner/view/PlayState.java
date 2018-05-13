@@ -23,8 +23,10 @@ public class PlayState extends WindowState implements Observer {
     Label health;
     Label ammo;
     Label score;
+    Window win;
 
     public PlayState(Window win) throws FileNotFoundException {
+        this.win = win;
         Engine.getInstance().getPlayer().attach(this);
         String filename = new String();
         filename = Paths.get("sound", "jazz.mp3").toString();
@@ -84,7 +86,10 @@ public class PlayState extends WindowState implements Observer {
         update(Engine.getInstance().getPlayer());
     }
 
-    public void update(Player p) {
+    public void update(Player p) throws FileNotFoundException {
+        if(p.getHealth() == 0){
+            win.setState(new LoseState(win));
+        }
         health.setText("Health :" + p.getHealth());
         ammo.setText("Ammo :" + p.getAmmo());
         score.setText("Score :" + p.getScore());

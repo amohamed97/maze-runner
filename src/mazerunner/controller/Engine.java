@@ -173,6 +173,13 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+        effectors[0][11] = (HealthBomb) cellFactory.getCell("HealthBomb",0,11);
+        effectors[0][12] = (HealthBomb) cellFactory.getCell("HealthBomb",0,12);
+        effectors[0][13] = (HealthBomb) cellFactory.getCell("HealthBomb",0,13);
+        effectors[0][14] = (HealthBomb) cellFactory.getCell("HealthBomb",0,14);
+        effectors[0][15] = (HealthBomb) cellFactory.getCell("HealthBomb",0,15);
+        effectors[0][16] = (HealthBomb) cellFactory.getCell("HealthBomb",0,16);
+        effectors[0][17] = (HealthBomb) cellFactory.getCell("HealthBomb",0,17);
         effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
 
 

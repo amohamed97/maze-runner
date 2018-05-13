@@ -126,7 +126,13 @@ public class Player extends Cell {
     }
 
     public void notifyAllObservers() {
-        observers.forEach(o -> o.update(this));
+        observers.forEach(o -> {
+            try {
+                o.update(this);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
 
