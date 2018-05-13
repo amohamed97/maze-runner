@@ -22,19 +22,25 @@ public class VictoryState extends WindowState {
                         BackgroundSize.DEFAULT)));
         victory.setAlignment(Pos.CENTER);
         victory.setSpacing(50);
-        Label[] labels = new Label[3];
+        Label[] labels = new Label[4];
         AtomicInteger selected = new AtomicInteger();
-        selected.set(1);
+        selected.set(2);
 
 
         labels[0] = new Label("You Win!");
         labels[0].setStyle("-fx-text-fill: green;" +
                 " -fx-font-size: 100;");
-        labels[1] = new Label("Main Menu");
-        labels[1].setStyle("-fx-text-fill: red;" +
+        labels[1] = new Label("Score : "+Engine.getInstance().getPlayer().getScore());
+        labels[1].setStyle("-fx-text-fill: green;" +
                 " -fx-font-size: 30;");
-        labels[2] = new Label("Exit");
-        labels[2].setStyle("-fx-text-fill: white;" +
+
+
+
+        labels[2] = new Label("Main Menu");
+        labels[2].setStyle("-fx-text-fill: red;" +
+                " -fx-font-size: 30;");
+        labels[3] = new Label("Exit");
+        labels[3].setStyle("-fx-text-fill: white;" +
                 " -fx-font-size: 30;");
 
         victory.getChildren().addAll(labels);
@@ -43,7 +49,7 @@ public class VictoryState extends WindowState {
         scene.setOnKeyPressed(e -> {
             switch (e.getCode()) {
                 case DOWN:
-                    if (selected.get() < 2) {
+                    if (selected.get() < 3) {
                         labels[selected.get()].setStyle("-fx-text-fill: white;" +
                                 "-fx-font-size: 30;");
                         selected.getAndIncrement();
@@ -53,7 +59,7 @@ public class VictoryState extends WindowState {
                     break;
 
                 case UP:
-                    if (selected.get() > 1) {
+                    if (selected.get() > 2) {
                         labels[selected.get()].setStyle("-fx-text-fill: white;" +
                                 "-fx-font-size: 30;");
                         selected.getAndDecrement();
@@ -64,7 +70,7 @@ public class VictoryState extends WindowState {
 
                 case ENTER:
                     switch (selected.get()) {
-                        case 1:
+                        case 2:
                             try {
                                 w.setState(new StartState(w));
                             } catch (FileNotFoundException e1) {
@@ -72,7 +78,7 @@ public class VictoryState extends WindowState {
                             }
                             break;
 
-                        case 2:
+                        case 3:
                             w.stage.close();
                             break;
                     }
