@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import mazerunner.controller.Engine;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -64,13 +65,13 @@ public class Player extends Cell {
     public void setRow(int row) {
         setRotate(this.row < row? 180 : 0);
         this.row = row;
-        playAnimation(yProperty(), row*20);
+        playAnimation(yProperty(), row* Engine.getCellSize());
     }
 
     public void setCol(int col){
         setRotate(this.col < col? 90 : 270);
         this.col = col;
-        playAnimation(xProperty(), col*20);
+        playAnimation(xProperty(), col*Engine.getCellSize());
     }
 
     public int getHealth(){

@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.Property;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
+import mazerunner.controller.Engine;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,8 +30,8 @@ public class ArmoredPlayer extends Player {
     public ArmoredPlayer(Player player){
         this.player = player;
         player.setImage(playerStand);
-        super.setFitHeight(20);
-        super.setFitWidth(20);
+        super.setFitHeight(Engine.getCellSize());
+        super.setFitWidth(Engine.getCellSize());
     }
 
     public void decreaseHealth(int change){}

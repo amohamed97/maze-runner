@@ -41,7 +41,7 @@ public class Window extends Application implements Observer {
         VBox pauseMenu = new VBox();
         pauseMenu.setBackground(new Background(
                 new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "back2.jpg").toString())),
-                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                         BackgroundSize.DEFAULT)));
         pauseMenu.setAlignment(Pos.CENTER);
         pauseMenu.setSpacing(50);
@@ -61,7 +61,7 @@ public class Window extends Application implements Observer {
 
         pauseMenu.getChildren().addAll(labels);
 
-        pause = new Scene(pauseMenu,600,600);
+        pause = new Scene(pauseMenu,(Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize()));
         pause.setOnKeyPressed(e->{
             switch (e.getCode()){
                 case DOWN:
@@ -133,7 +133,7 @@ public class Window extends Application implements Observer {
 //                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
 //                        BackgroundSize.DEFAULT)));
                     border.setBottom(status);
-        scene = new Scene(border, 600, 625);
+        scene = new Scene(border, (Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize())+25);
         scene.setOnKeyPressed(e2 -> {
             switch (e2.getCode()) {
                 case UP:
@@ -181,7 +181,7 @@ public class Window extends Application implements Observer {
         VBox menuLayout = new VBox();
         menuLayout.setBackground(new Background(
                 new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "back2.jpg").toString())),
-                        BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
                         BackgroundSize.DEFAULT)));
         menuLayout.setAlignment(Pos.CENTER);
         menuLayout.setSpacing(50);
@@ -201,7 +201,7 @@ public class Window extends Application implements Observer {
 
         menuLayout.getChildren().addAll(labels);
 
-        menu = new Scene(menuLayout,600,600);
+        menu = new Scene(menuLayout,(Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize()));
         menu.setOnKeyPressed(e->{
             switch (e.getCode()){
                 case DOWN:

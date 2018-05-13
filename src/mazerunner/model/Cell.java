@@ -1,6 +1,7 @@
 package mazerunner.model;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import mazerunner.controller.Engine;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,8 +24,8 @@ public class Cell extends ImageView {
             return;
         }
         setImage(new Image(stream));
-        super.setFitHeight(20);
-        super.setFitWidth(20);
+        super.setFitHeight(Engine.getCellSize());
+        super.setFitWidth(Engine.getCellSize());
         super.setPreserveRatio(true);
 
     }
@@ -35,7 +36,7 @@ public class Cell extends ImageView {
 
     public void setRow(int row) {
         this.row = row;
-        setY(row*20);
+        setY(row*Engine.getCellSize());
     }
 
     public int getCol() {
@@ -44,6 +45,6 @@ public class Cell extends ImageView {
 
     public void setCol(int col) {
         this.col = col;
-        setX(col*20);
+        setX(col*Engine.getCellSize());
     }
 }

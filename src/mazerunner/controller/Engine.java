@@ -13,8 +13,12 @@ import java.util.stream.Collectors;
 
 public class Engine {
     public Pane root;
-    Cell[][] walls = new Cell[30][30];
-    Effector[][] effectors = new Effector[30][30];
+    public static final int WIDTH = 30;
+    public static final int HEIGHT = 20;
+    public static final int CELL_SIZE = 30;
+
+    Cell[][] walls = new Cell[HEIGHT][WIDTH];
+    Effector[][] effectors = new Effector[HEIGHT][WIDTH];
 
     public Player getPlayer() {
         return player;
@@ -131,7 +135,8 @@ public class Engine {
     public void moveRow(final int rowDiff){
         final int playerRow = player.getRow() + rowDiff;
         final int playerCol = player.getCol();
-        if(playerRow >= 0 && playerRow < 30)
+        System.out.println(playerRow < HEIGHT);
+        if(playerRow >= 0 && playerRow < HEIGHT)
             if (noWallExists(playerRow, playerCol)) {
                 if(effectorExists(playerRow,playerCol)) {
                     effectors[playerRow][playerCol].effect(player);
@@ -148,7 +153,8 @@ public class Engine {
     public void moveCol(final int colDiff){
         final int playerRow = player.getRow();
         final int playerCol = player.getCol() + colDiff;
-        if(playerCol >= 0 && playerCol < 30)
+        System.out.println(playerCol < WIDTH);
+        if(playerCol >= 0 && playerCol < WIDTH)
             if (noWallExists(playerRow, playerCol)) {
                 if(effectorExists(playerRow,playerCol)) {
                     effectors[playerRow][playerCol].effect(player);
@@ -158,5 +164,18 @@ public class Engine {
                 player.setCol(playerCol);
             }
         System.out.println(player.getHealth());
+    }
+
+
+    public static int getWidth(){
+        return WIDTH;
+    }
+
+    public static int getHeight(){
+        return HEIGHT;
+    }
+
+    public static int getCellSize(){
+        return CELL_SIZE;
     }
 }
