@@ -67,11 +67,13 @@ public class Player extends Cell {
 
     void fillHealth(){
         health = 100;
+        score += 20;
         notifyAllObservers();
     }
 
     void decreaseHealth(int change){
         health -= change;
+        score -= 20;
         notifyAllObservers();
     }
 
@@ -113,11 +115,13 @@ public class Player extends Cell {
 
     public void shoot(){
         this.ammo--;
+        score--;
         notifyAllObservers();
     }
 
     public void increaseAmmo(){
         this.ammo += 5;
+        score += 5;
         notifyAllObservers();
     }
 

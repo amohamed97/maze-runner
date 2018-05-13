@@ -18,6 +18,7 @@ public class ArmorGift extends Effector {
     @Override
     public void effect(Player p) {
         mediaPlayer.play();
+        p.changeScore(20);
         Engine.getInstance().armorize();
     }
 }

@@ -27,6 +27,7 @@ public class ArmoredPlayer extends Player {
 
     public void decreaseHealth(int change){
         Engine.getInstance().dearmorize();
+        player.changeScore(-20);
     }
 
     public Player getPlayer(){
