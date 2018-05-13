@@ -212,6 +212,7 @@ public class Engine {
     }
 
     public void moveRow(final int rowDiff){
+        player.setDirection(rowDiff > 0? Direction.DOWN : Direction.UP);
         final int playerRow = player.getRow() + rowDiff;
         final int playerCol = player.getCol();
         System.out.println(playerRow < HEIGHT);
@@ -230,6 +231,7 @@ public class Engine {
     }
 
     public void moveCol(final int colDiff){
+        player.setDirection(colDiff > 0? Direction.RIGHT : Direction.LEFT);
         final int playerRow = player.getRow();
         final int playerCol = player.getCol() + colDiff;
         System.out.println(playerCol < WIDTH);
