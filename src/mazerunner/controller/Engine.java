@@ -4,11 +4,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import mazerunner.model.*;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Engine {
@@ -19,20 +19,12 @@ public class Engine {
 
     Cell[][] walls = new Cell[HEIGHT][WIDTH];
     Effector[][] effectors = new Effector[HEIGHT][WIDTH];
-
-    public Player getPlayer() {
-        return player;
-    }
+    Random rand = new Random();
 
     Player player;
+
     CellFactory cellFactory = new CellFactory();
-
     public static Engine engine = new Engine();
-
-    public static Engine getInstance(){
-        return engine;
-    }
-
 
     private Engine() {
         player = new Player(5, 7);
@@ -41,7 +33,6 @@ public class Engine {
 
         for(Effector[] row : effectors)
             Arrays.fill(row, null);
-
 
 
         effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
@@ -121,6 +112,15 @@ public class Engine {
 
 
     }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public static Engine getInstance(){
+        return engine;
+    }
+
 
     public void restart(){
 
@@ -219,7 +219,66 @@ public class Engine {
         return HEIGHT;
     }
 
-    public static int getCellSize(){
+    public static int getCellSize() {
         return CELL_SIZE;
+    }
+    public void save(){
+        try {
+            File file = new File("save.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(getPlayer().getHealth()+" "+getPlayer().getAmmo()+" "+getPlayer().getScore());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void load(){
+        try (FileReader file = new FileReader("save.txt")) {
+            Scanner scanner = new Scanner(file);
+            getPlayer().setHealth(Integer.parseInt(scanner.next()));
+            getPlayer().setAmmo(Integer.parseInt(scanner.next()));
+            getPlayer().setScore(Integer.parseInt(scanner.next()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void generate(int x, int y) {
+        walls[x][y] = null;
+
+        // while there is an unvisited neighbor
+        while (walls[x][y+1] == null || walls[x+1][y] == null  || walls[x][y-1] == null || walls[x-1][y] == null) {
+
+            // pick random neighbor (could use Knuth's trick instead)
+            while (true) {
+                int r = rand.nextInt(4);
+                if (r == 0 && walls[x][y+1] == null) {
+                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
+                    walls[x][y+1] = cellFactory.getCell("stoneWall",x,y+1);
+                    generate(x, y + 1);
+                    break;
+                }
+                else if (r == 1 && walls[x+1][y] == null) {
+                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
+                    walls[x+1][y] = cellFactory.getCell("stoneWall",x+1,y);
+                    generate(x+1, y);
+                    break;
+                }
+                else if (r == 2 && walls[x][y-1] == null) {
+                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);;
+                    walls[x][y-1] = cellFactory.getCell("stoneWall",x,y-1);
+                    generate(x, y-1);
+                    break;
+                }
+                else if (r == 3 && walls[x-1][y] == null) {
+                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
+                    walls[x-1][y] = cellFactory.getCell("stoneWall",x-1,y);
+                    generate(x-1, y);
+                    break;
+                }
+            }
+        }
     }
 }
