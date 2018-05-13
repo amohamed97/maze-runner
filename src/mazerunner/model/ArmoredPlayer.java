@@ -97,4 +97,8 @@ public class ArmoredPlayer extends Player {
     public void setScore(int score) {
         player.setScore(score);
     }
+
+    public Direction getDirection(){
+        return player.getDirection();
+    }
 }
