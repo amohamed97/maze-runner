@@ -231,12 +231,12 @@ public class Engine {
         final int playerCol = player.getCol();
         if(playerRow >= 0 && playerRow < HEIGHT)
             if (noWallExists(playerRow, playerCol)) {
+                player.setRow(playerRow);
                 if(effectorExists(playerRow,playerCol)) {
                     effectors[playerRow][playerCol].effect(player);
                     effectors[playerRow][playerCol].setImage(null);
                     effectors[playerRow][playerCol] = null;
                 }
-                player.setRow(playerRow);
 
 
             }
@@ -248,12 +248,12 @@ public class Engine {
         final int playerCol = player.getCol() + colDiff;
         if(playerCol >= 0 && playerCol < WIDTH)
             if (noWallExists(playerRow, playerCol)) {
+                player.setCol(playerCol);
                 if(effectorExists(playerRow,playerCol)) {
                     effectors[playerRow][playerCol].effect(player);
                     effectors[playerRow][playerCol].setImage(null);
                     effectors[playerRow][playerCol] = null;
                 }
-                player.setCol(playerCol);
             }
     }
 
@@ -488,5 +488,23 @@ public class Engine {
     public void nTOij(int n){
         i = n/WIDTH;
         j = n%WIDTH;
+    }
+
+
+    public Memento getCheckpoint() {
+        return checkpoint;
+    }
+
+    public void setCheckpoint(Memento checkpoint) {
+        this.checkpoint = checkpoint;
+    }
+
+    public void backToCheckpoint(){
+        Integer[] temp = checkpoint.getState();
+        player.setHealth(temp[0]);
+        player.setAmmo(temp[1]);
+        System.out.println(temp[2]+""+temp[3]);
+        player.setRow(temp[2]);
+        player.setCol(temp[3]);
     }
 }

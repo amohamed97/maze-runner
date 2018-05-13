@@ -88,7 +88,12 @@ public class PlayState extends WindowState implements Observer {
 
     public void update(Player p) throws FileNotFoundException {
         if(p.getHealth() == 0){
-            win.setState(new LoseState(win));
+            if(Engine.getInstance().getCheckpoint() == null) {
+                win.setState(new LoseState(win));
+            }else{
+                Engine.getInstance().backToCheckpoint();
+            }
+
         }
         health.setText("Health :" + p.getHealth());
         ammo.setText("Ammo :" + p.getAmmo());
