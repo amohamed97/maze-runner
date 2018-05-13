@@ -4,6 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import mazerunner.model.*;
 import mazerunner.model.memento.Memento;
@@ -23,6 +25,9 @@ public class Engine {
     public static final int WIDTH = 30;
     public static final int HEIGHT = 20;
     public static final int CELL_SIZE = 30;
+
+    MediaPlayer mediaPlayer;
+    String filename = new String();
 
     Cell[][] walls = new Cell[HEIGHT][WIDTH];
     Effector[][] effectors = new Effector[HEIGHT][WIDTH];
@@ -47,6 +52,8 @@ public class Engine {
         for(Effector[] row : effectors)
             Arrays.fill(row, null);
 
+        filename= Paths.get("sound","shoot.wav").toString();
+
 
         effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
         effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
@@ -63,7 +70,7 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
         effectors[2][20] = (ArmorGift) cellFactory.getCell("ArmorGift",2,20);
-
+        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
         root = new Pane();
         root.getChildren().add(player);
         for(Cell[] row : walls)
@@ -267,6 +274,8 @@ public class Engine {
 
     public void shoot(){
         if(player.getAmmo() > 0) {
+            mediaPlayer=new MediaPlayer(new Media(new File(filename).toURI().toString()));
+            mediaPlayer.play();
             player.setAmmo(player.getAmmo() - 1);
             Bullet bullet = new Bullet(player.getRow(), player.getCol(), player.getDirection());
             root.getChildren().add(0, bullet);

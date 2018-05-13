@@ -26,6 +26,8 @@ public class CellFactory {
 
             case "Checkpoint":
                 return new Checkpoint(row,column);
+            case "MazeWin":
+                return new MazeWin(row,column);
 
 
         }

@@ -11,7 +11,7 @@ public class AmmoGift extends Effector {
 
     public AmmoGift(int row, int col){
         super(row, col, "gift.png");
-        soundFile= Paths.get("sound","Powerup22.mp3").toString();
+        soundFile= Paths.get("sound","Powerup12.wav").toString();
         System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }

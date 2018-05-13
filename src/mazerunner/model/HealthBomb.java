@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 public class HealthBomb extends Effector {
     public HealthBomb(int row, int col){
         super(row, col, "bomb.png");
-        soundFile= Paths.get("sound","bomb.mp3").toString();
+        soundFile= Paths.get("sound","bomb.wav").toString();
         System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }

@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 public class HealthGift extends Effector {
     public HealthGift(int row, int col){
         super(row, col, "gift.png");
-        soundFile= Paths.get("sound","Powerup22.mp3").toString();
+        soundFile= Paths.get("sound","Powerup22.wav").toString();
         System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }

@@ -6,10 +6,12 @@ import javafx.scene.media.MediaPlayer;
 import java.io.File;
 import java.nio.file.Paths;
 
-public class ArmorGift extends Effector {
-    public ArmorGift(int row, int col){
-        super(row, col, "shield.png");
-        soundFile= Paths.get("sound","shield.wav").toString();
+public class MazeWin extends Effector {
+
+
+    public MazeWin(int row, int col){
+        super(row, col, "trophy.png");
+        soundFile= Paths.get("sound","win.wav").toString();
         System.out.println(soundFile);
         mediaPlayer = new MediaPlayer(new Media(new File(soundFile).toURI().toString()));
     }
@@ -17,6 +19,7 @@ public class ArmorGift extends Effector {
 
     @Override
     public void effect(Player p) {
+        p.increaseAmmo();
         mediaPlayer.play();
 
     }

@@ -13,6 +13,7 @@ import mazerunner.controller.Engine;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.scene.control.Button;
@@ -37,20 +38,25 @@ public class Window extends Application {
     BorderPane border;
     Stage stage;
     WindowState state;
-
-
+    MediaPlayer mediaPlayer;
+    String filename = new String();
     public void setState(WindowState state){
         this.state = state;
         stage.setScene(state.getScene());
     }
 
     public void start(Stage stage) throws FileNotFoundException {
+        filename= Paths.get("sound","jazz.mp3").toString();
+        mediaPlayer=new MediaPlayer(new Media(new File(filename).toURI().toString()));
+        mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+        mediaPlayer.play();
         this.stage = stage;
         stage.setTitle("Maze Runner");
         stage.setResizable(false);
 
         setState(new StartState(this));
         stage.show();
+
     }
 
     public static void main(String[] args) {
