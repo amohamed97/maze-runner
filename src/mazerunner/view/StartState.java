@@ -63,6 +63,7 @@ public class StartState extends WindowState {
                 case ENTER:
                     switch (selected.get()) {
                         case 0:
+                            Engine.getInstance().restart();
                             try {
                                 win.setState(new PlayState(win));
                             } catch (FileNotFoundException e1) {
