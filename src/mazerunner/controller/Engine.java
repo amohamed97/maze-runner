@@ -312,9 +312,10 @@ public class Engine {
                     kf = new KeyFrame(dur, e -> bulletMoveColumn(bullet, -1));
             }
             Timeline timeline = new Timeline(kf);
-            timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.setOnFinished(e -> {
-                if (!root.getChildren().contains(bullet))
+                if (root.getChildren().contains(bullet))
+                    timeline.play();
+                else
                     timeline.stop();
             });
             timeline.play();
