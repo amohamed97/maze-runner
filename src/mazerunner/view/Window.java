@@ -46,6 +46,7 @@ public class Window extends Application {
     }
 
     public void start(Stage stage) throws FileNotFoundException {
+        Engine.getInstance().setWindow(this);
         filename= Paths.get("sound","jazz.mp3").toString();
         mediaPlayer=new MediaPlayer(new Media(new File(filename).toURI().toString()));
         mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
@@ -61,5 +62,10 @@ public class Window extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    public void win() throws FileNotFoundException {
+        this.setState(new VictoryState(this));
     }
 }

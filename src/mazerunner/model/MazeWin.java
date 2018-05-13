@@ -2,8 +2,10 @@ package mazerunner.model;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import mazerunner.controller.Engine;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 public class MazeWin extends Effector {
@@ -19,7 +21,11 @@ public class MazeWin extends Effector {
 
     @Override
     public void effect(Player p) {
-        p.increaseAmmo();
+        try {
+            Engine.getInstance().win();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         mediaPlayer.play();
 
     }

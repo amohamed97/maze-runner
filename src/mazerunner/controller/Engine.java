@@ -9,6 +9,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import mazerunner.model.*;
 import mazerunner.model.memento.Memento;
+import mazerunner.view.VictoryState;
+import mazerunner.view.Window;
 
 import java.io.*;
 import java.awt.event.ActionEvent;
@@ -43,8 +45,9 @@ public class Engine {
 
     CellFactory cellFactory = new CellFactory();
     public static Engine engine = new Engine();
-
+    public Window win;
     private Engine() {
+
         player = new Player(5, 7);
         for(Cell[] row : walls)
             Arrays.fill(row, null);
@@ -111,6 +114,7 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
 
 
         root = new Pane();
@@ -162,6 +166,7 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
 
 
 
@@ -336,6 +341,14 @@ public class Engine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setWindow(Window win){
+        this.win = win;
+    }
+
+    public void win() throws FileNotFoundException {
+        win.setState(new VictoryState(win));
     }
 
 }
