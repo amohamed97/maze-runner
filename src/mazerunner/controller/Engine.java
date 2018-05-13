@@ -3,6 +3,7 @@ package mazerunner.controller;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import mazerunner.model.*;
+import mazerunner.model.memento.Memento;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -12,6 +13,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Engine {
+
     public Pane root;
     public static final int WIDTH = 30;
     public static final int HEIGHT = 20;
@@ -19,7 +21,13 @@ public class Engine {
 
     Cell[][] walls = new Cell[HEIGHT][WIDTH];
     Effector[][] effectors = new Effector[HEIGHT][WIDTH];
-    Random rand = new Random();
+
+
+    Memento checkpoint;
+
+    public Player getPlayer() {
+        return player;
+    }
 
     Player player;
 
@@ -113,10 +121,6 @@ public class Engine {
 
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     public static Engine getInstance(){
         return engine;
     }
@@ -131,6 +135,7 @@ public class Engine {
         player.setScore(0);
 
 
+        effectors[14][10] = (Checkpoint) cellFactory.getCell("Checkpoint",14,10);
         effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
         effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
         walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
@@ -145,6 +150,7 @@ public class Engine {
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         walls[1][10] = cellFactory.getCell("StoneWall",1,10);
         effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
+
 
 
         root.getChildren().clear();
@@ -210,6 +216,15 @@ public class Engine {
         System.out.println(player.getHealth());
     }
 
+    public void saveToMemento(){
+        Integer[] state = new Integer[]{player.getHealth(),player.getAmmo(),player.getRow(),player.getCol()};
+        checkpoint = new Memento(state);
+    }
+
+    public Integer[] loadFromMomento(){
+        return checkpoint.getState();
+    }
+
 
     public static int getWidth(){
         return WIDTH;
@@ -245,40 +260,4 @@ public class Engine {
         }
     }
 
-    private void generate(int x, int y) {
-        walls[x][y] = null;
-
-        // while there is an unvisited neighbor
-        while (walls[x][y+1] == null || walls[x+1][y] == null  || walls[x][y-1] == null || walls[x-1][y] == null) {
-
-            // pick random neighbor (could use Knuth's trick instead)
-            while (true) {
-                int r = rand.nextInt(4);
-                if (r == 0 && walls[x][y+1] == null) {
-                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
-                    walls[x][y+1] = cellFactory.getCell("stoneWall",x,y+1);
-                    generate(x, y + 1);
-                    break;
-                }
-                else if (r == 1 && walls[x+1][y] == null) {
-                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
-                    walls[x+1][y] = cellFactory.getCell("stoneWall",x+1,y);
-                    generate(x+1, y);
-                    break;
-                }
-                else if (r == 2 && walls[x][y-1] == null) {
-                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);;
-                    walls[x][y-1] = cellFactory.getCell("stoneWall",x,y-1);
-                    generate(x, y-1);
-                    break;
-                }
-                else if (r == 3 && walls[x-1][y] == null) {
-                    walls[x][y] = cellFactory.getCell("stoneWall",x,y);
-                    walls[x-1][y] = cellFactory.getCell("stoneWall",x-1,y);
-                    generate(x-1, y);
-                    break;
-                }
-            }
-        }
-    }
 }

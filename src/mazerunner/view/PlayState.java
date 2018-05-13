@@ -28,8 +28,8 @@ public class PlayState extends WindowState implements Observer {
         Engine.getInstance().getPlayer().attach(this);
         String filename = new String();
         filename = Paths.get("sound", "jazz.mp3").toString();
-        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(filename).toURI().toString()));
-        mediaPlayer.play();
+//        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(filename).toURI().toString()));
+//        mediaPlayer.play();
         BorderPane border = new BorderPane();
         border.setCenter(Engine.getInstance().root);
         HBox status = new HBox(167);
@@ -66,6 +66,7 @@ public class PlayState extends WindowState implements Observer {
                 case D:
                     Engine.getInstance().moveCol(1);
                     break;
+
 
                 case ESCAPE:
                     try {

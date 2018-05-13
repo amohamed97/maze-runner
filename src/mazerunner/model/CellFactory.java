@@ -24,6 +24,8 @@ public class CellFactory {
             case "ArmorGift":
                 return new ArmorGift(row,column);
 
+            case "Checkpoint":
+                return new Checkpoint(row,column);
 
 
         }
