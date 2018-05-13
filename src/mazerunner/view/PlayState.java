@@ -30,8 +30,6 @@ public class PlayState extends WindowState implements Observer {
         Engine.getInstance().getPlayer().attach(this);
         String filename = new String();
         filename = Paths.get("sound", "jazz.mp3").toString();
-//        MediaPlayer mediaPlayer = new MediaPlayer(new Media(new File(filename).toURI().toString()));
-//        mediaPlayer.play();
         BorderPane border = new BorderPane();
         border.setCenter(Engine.getInstance().root);
         HBox status = new HBox(167);
@@ -44,10 +42,6 @@ public class PlayState extends WindowState implements Observer {
         im.setFitWidth(10);
         im.setFitHeight(10);
         status.getChildren().addAll(health, ammo, score);
-//        status.setBackground(new Background(
-//                new BackgroundImage(new Image(new FileInputStream(Paths.get("images", "grey.png").toString())),
-//                        BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT,
-//                        BackgroundSize.DEFAULT)));
         border.setBottom(status);
         scene = new Scene(border, (Engine.getWidth()*Engine.getCellSize()),(Engine.getHeight()*Engine.getCellSize())+25);
         scene.setOnKeyPressed(e2 -> {

@@ -62,24 +62,6 @@ public class Engine {
             Arrays.fill(row, null);
 
         filename= Paths.get("sound","shoot.wav").toString();
-
-
-//        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
-//        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
-//        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
-//        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
-//        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
-//        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
-//        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
-//        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
-//        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
-//        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
-//        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
-//        effectors[2][20] = (ArmorGift) cellFactory.getCell("ArmorGift",2,20);
-//        effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
         try {
             loadMaze();
         } catch (IOException e) {
@@ -115,20 +97,6 @@ public class Engine {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
-//        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
-//        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
-//        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
-//        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
-//        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
-//        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
-//        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
-//        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
-//        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
-//        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
         effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
 
 
@@ -165,30 +133,6 @@ public class Engine {
         player.setHealth(100);
         player.setScore(0);
 
-
-//        effectors[14][10] = (Checkpoint) cellFactory.getCell("Checkpoint",14,10);
-//        effectors[13][10] = (AmmoGift) cellFactory.getCell("AmmoGift",13,10);
-//        effectors[12][10] = (HealthGift) cellFactory.getCell("HealthGift",12,10);
-//        generate(0,0);
-//        walls[10][10] = cellFactory.getCell("TreeWall",10, 10);
-//        walls[9][10] = cellFactory.getCell("TreeWall",9, 10);
-//        walls[11][10] = cellFactory.getCell("TreeWall",11,10);
-//        walls[7][10] = cellFactory.getCell("StoneWall",7,10);
-//        walls[6][10] = cellFactory.getCell("StoneWall",6,10);
-//        walls[5][10] = cellFactory.getCell("StoneWall",5,10);
-//        walls[4][10] = cellFactory.getCell("StoneWall",4,10);
-//        walls[3][10] = cellFactory.getCell("StoneWall",3,10);
-//        walls[2][10] = cellFactory.getCell("StoneWall",2,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        walls[1][10] = cellFactory.getCell("StoneWall",1,10);
-//        effectors[0][10] = (HealthBomb) cellFactory.getCell("HealthBomb",0,10);
-//        effectors[0][11] = (HealthBomb) cellFactory.getCell("HealthBomb",0,11);
-//        effectors[0][12] = (HealthBomb) cellFactory.getCell("HealthBomb",0,12);
-//        effectors[0][13] = (HealthBomb) cellFactory.getCell("HealthBomb",0,13);
-//        effectors[0][14] = (HealthBomb) cellFactory.getCell("HealthBomb",0,14);
-//        effectors[0][15] = (HealthBomb) cellFactory.getCell("HealthBomb",0,15);
-//        effectors[0][16] = (HealthBomb) cellFactory.getCell("HealthBomb",0,16);
-//        effectors[0][17] = (HealthBomb) cellFactory.getCell("HealthBomb",0,17);
         effectors[19][29] = (MazeWin) cellFactory.getCell("MazeWin",19,29);
 
 
@@ -531,7 +475,6 @@ public class Engine {
         Integer[] temp = checkpoint.getState();
         player.setHealth(temp[0]);
         player.setAmmo(temp[1]);
-        System.out.println(temp[2]+""+temp[3]);
         player.setRow(temp[2]);
         player.setCol(temp[3]);
     }
@@ -548,11 +491,9 @@ public class Engine {
                 for(int j=0;j<WIDTH;j++){
                     if(input.hasNext()){
                         numArr[i][j]=input.nextInt();
-                        System.out.print(numArr[i][j]);
                     }
 
                 }
-                System.out.println();
             }
 
             input.close();
@@ -564,7 +505,6 @@ public class Engine {
 
         for(int i=0;i<HEIGHT;i++){
             for(int j=0;j<WIDTH;j++){
-                System.out.println(i+"-"+j);
                 if(numArr[i][j]==0){
                     walls[i][j]=null;
                 }else if(numArr[i][j]==1){

@@ -84,11 +84,6 @@ public class PauseState extends WindowState {
 
                         case 1:
                             Engine.getInstance().restart();
-//                            try {
-//                                Thread.sleep(150);
-//                            } catch (InterruptedException e1) {
-//                                e1.printStackTrace();
-//                            }
                             resume(win);
                             break;
 
