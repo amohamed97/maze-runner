@@ -12,13 +12,18 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
 public class Player extends Cell {
     int health = 100;
     int ammo = 6;
     int score = 0;
     private static Image playerStand;
     private static Image playerMove;
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    Direction direction;
 
     ArrayList<Observer> observers = new ArrayList<Observer>();
 
@@ -63,13 +68,15 @@ public class Player extends Cell {
     }
 
     public void setRow(int row) {
-        setRotate(this.row < row? 180 : 0);
+        direction = this.row < row? Direction.DOWN : Direction.UP;
+        setRotate(direction == Direction.DOWN? 180 : 0);
         this.row = row;
         playAnimation(yProperty(), row* Engine.getCellSize());
     }
 
     public void setCol(int col){
-        setRotate(this.col < col? 90 : 270);
+        direction = this.col < col? Direction.RIGHT : Direction.LEFT;
+        setRotate(direction == Direction.RIGHT? 90 : 270);
         this.col = col;
         playAnimation(xProperty(), col*Engine.getCellSize());
     }

@@ -20,9 +20,9 @@ import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
 public class PlayState extends WindowState implements Observer {
-    Label health = new Label("Health : 100");
-    Label ammo = new Label("Ammo : 100");
-    Label score = new Label("Score : 100");
+    Label health;
+    Label ammo;
+    Label score;
 
     public PlayState(Window win) throws FileNotFoundException {
         Engine.getInstance().getPlayer().attach(this);
@@ -73,8 +73,12 @@ public class PlayState extends WindowState implements Observer {
                     }catch (FileNotFoundException e){
                         e.printStackTrace();
                     }
+                    break;
+                case SPACE:
+                    Engine.getInstance().shoot();
             }
         });
+        update(Engine.getInstance().getPlayer());
     }
 
     public void update(Player p) {

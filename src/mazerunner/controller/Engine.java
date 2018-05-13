@@ -1,9 +1,14 @@
 package mazerunner.controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import mazerunner.model.*;
 
+import java.awt.event.ActionEvent;
+import java.beans.EventHandler;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -210,6 +215,70 @@ public class Engine {
         System.out.println(player.getHealth());
     }
 
+    void bulletMoveRow(Bullet bullet, int rowDiff){
+        final int bulletRow = bullet.getRow() + rowDiff;
+        final int bulletCol = bullet.getCol();
+        System.out.println(bulletRow < HEIGHT);
+        if(bulletRow >= 0 && bulletRow < HEIGHT) {
+            Cell wall = walls[bulletRow][bulletCol];
+            if (wall == null) {
+                bullet.animateRow(bulletRow);
+                return;
+            } else if (wall instanceof TreeWall ){
+                root.getChildren().remove(wall);
+                walls[bulletRow][bulletCol] = null;
+            }
+        }
+        root.getChildren().remove(bullet);
+    }
+
+    void bulletMoveColumn(Bullet bullet, int colDiff){
+        final int bulletRow = bullet.getRow();
+        final int bulletCol = bullet.getCol() + colDiff;
+        System.out.println(bulletRow < WIDTH);
+        if(bulletCol >= 0 && bulletCol < WIDTH) {
+            Cell wall = walls[bulletRow][bulletCol];
+            if (wall == null) {
+                bullet.animateCol(bulletCol);
+                return;
+            } else if (wall instanceof TreeWall ){
+                root.getChildren().remove(wall);
+                walls[bulletRow][bulletCol] = null;
+            }
+        }
+        root.getChildren().remove(bullet);
+
+    }
+
+    public void shoot(){
+        if(player.getAmmo() > 0) {
+            player.setAmmo(player.getAmmo() - 1);
+            Bullet bullet = new Bullet(player.getRow(), player.getCol(), player.getDirection());
+            root.getChildren().add(0, bullet);
+            KeyFrame kf;
+            Duration dur = Duration.millis(100);
+            switch (player.getDirection()) {
+                case UP:
+                    kf = new KeyFrame(dur, e -> bulletMoveRow(bullet, -1));
+                    break;
+                case DOWN:
+                    kf = new KeyFrame(dur, e -> bulletMoveRow(bullet, 1));
+                    break;
+                case RIGHT:
+                    kf = new KeyFrame(dur, e -> bulletMoveColumn(bullet, 1));
+                    break;
+                default:
+                    kf = new KeyFrame(dur, e -> bulletMoveColumn(bullet, -1));
+            }
+            Timeline timeline = new Timeline(kf);
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.setOnFinished(e -> {
+                if (!root.getChildren().contains(bullet))
+                    timeline.stop();
+            });
+            timeline.play();
+        }
+    }
 
     public static int getWidth(){
         return WIDTH;
