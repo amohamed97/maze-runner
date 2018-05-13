@@ -23,12 +23,26 @@ public class Player extends Cell {
         return direction;
     }
 
+    public void setDirection(Direction direction) {
+        this.direction = direction;
+        switch(direction){
+            case UP:
+                setRotate(0);
+                break;
+            case DOWN:
+                setRotate(180);
+                break;
+            case RIGHT:
+                setRotate(90);
+                break;
+            case LEFT:
+                setRotate(270);
+        }
+    }
+
     Direction direction;
 
     ArrayList<Observer> observers = new ArrayList<Observer>();
-
-    static{
-    }
 
     public Player(int row, int col) {
         super(row, col, "playerGun.png");
@@ -76,15 +90,11 @@ public class Player extends Cell {
     }
 
     public void setRow(int row) {
-        direction = this.row < row? Direction.DOWN : Direction.UP;
-        setRotate(direction == Direction.DOWN? 180 : 0);
         this.row = row;
         playAnimation(yProperty(), row* Engine.getCellSize());
     }
 
     public void setCol(int col){
-        direction = this.col < col? Direction.RIGHT : Direction.LEFT;
-        setRotate(direction == Direction.RIGHT? 90 : 270);
         this.col = col;
         playAnimation(xProperty(), col*Engine.getCellSize());
     }
