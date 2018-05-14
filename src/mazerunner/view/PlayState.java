@@ -84,6 +84,7 @@ public class PlayState extends WindowState implements Observer {
         if(p.getHealth() == 0){
             if(Engine.getInstance().getCheckpoint() == null) {
                 win.setState(new LoseState(win));
+                Engine.getInstance().setCheckpoint(null);
             }else{
                 Engine.getInstance().backToCheckpoint();
             }
